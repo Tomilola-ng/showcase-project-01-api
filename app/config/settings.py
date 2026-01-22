@@ -24,8 +24,6 @@ class AppSettings(BaseSettings):
     ENVIRONMENT: Literal["local", "staging", "production"] = os.getenv(
         "ENVIRONMENT", "local"
     )
-    EMAIL_SENDER: str = os.getenv("EMAIL_SENDER", "hello@twiplo.com")
-    ZEPTO_API_KEY: str = os.getenv("ZEPTO_API_KEY")
 
     # R2 Storage Configuration
     R2_ENDPOINT_URL: str = os.getenv("R2_ENDPOINT_URL")
