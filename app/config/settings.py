@@ -42,6 +42,7 @@ class AppSettings(BaseSettings):
             "models": {
                 "models": [
                     "aerich.models",
+                    "app.accounts.models",
                     "app.base.models",
                 ],
                 "default_connection": "default",
