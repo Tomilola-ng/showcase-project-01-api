@@ -17,14 +17,14 @@ load_dotenv()
 class AppSettings(BaseSettings):
     """Settings Class"""
 
-    PROJECT_NAME: str = "Fast_Template"
+    PROJECT_NAME: str = "Twiplo"
     DATABASE_URL: str = (
         os.getenv("DATABASE_URL")
     )
     ENVIRONMENT: Literal["local", "staging", "production"] = os.getenv(
         "ENVIRONMENT", "local"
     )
-    EMAIL_SENDER: str = os.getenv("EMAIL_SENDER", "hello@fast_template.com")
+    EMAIL_SENDER: str = os.getenv("EMAIL_SENDER", "hello@twiplo.com")
     ZEPTO_API_KEY: str = os.getenv("ZEPTO_API_KEY")
 
     # R2 Storage Configuration

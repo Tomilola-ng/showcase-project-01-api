@@ -1,5 +1,5 @@
 """
-Fast Template FastAPI
+Twiplo FastAPI
 """
 
 from contextlib import asynccontextmanager
@@ -16,7 +16,7 @@ from app.config.database import init_db
 
 settings = AppSettings()
 
-app = FastAPI(title="Fast Template FastAPI", version="1.0.0")
+app = FastAPI(title="Twiplo API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,

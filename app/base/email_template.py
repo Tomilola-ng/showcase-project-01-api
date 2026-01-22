@@ -23,7 +23,7 @@ def base_email_template(title: str, body: str) -> str:
         <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> {title} | Fast_Template</title>
+        <title> {title} | Twiplo</title>
         <style>
             /* Reset styles for email clients */
             body, table, td, a, p, h1, h2, h3, h4, h5, h6 {{
@@ -46,7 +46,7 @@ def base_email_template(title: str, body: str) -> str:
             .header {{
             text-align: center;
             padding: 20px;
-            background-color: #F9F9FB; /* Fast_Template brand color */
+            background-color: #F9F9FB; /* Twiplo brand color */
             color: #ffffff;
             }}
             .header img {{
@@ -133,15 +133,15 @@ def base_email_template(title: str, body: str) -> str:
         <body>
         <div class="email-container">
             <div class="header">
-            <img src="https://public_image.com/Fast_Template-logo.png" alt="Fast_Template Logo">
+            <img src="https://public_image.com/Twiplo-logo.png" alt="Twiplo Logo">
             </div>
             <div class="content">
                 {body}
-            <p class="muted">If you have any questions, feel free to reach out to our support team at support@fast_template.com.</p>
+            <p class="muted">If you have any questions, feel free to reach out to our support team at support@twiplo.com.</p>
             </div>
             <div class="footer">
-            <p>&copy; {year} Fast_Template. All rights reserved.</p>
-            <p><a href="https://fast_template.com">fast_template.com</a> | <a href="https://fast_template.com/privacy">Privacy Policy</a></p>
+            <p>&copy; {year} Twiplo. All rights reserved.</p>
+            <p><a href="https://twiplo.com">twiplo.com</a> | <a href="https://twiplo.com/privacy">Privacy Policy</a></p>
             </div>
         </div>
         </body>
