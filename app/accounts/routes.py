@@ -2,9 +2,11 @@
 
 from datetime import datetime, timezone
 
+from typing import Optional
 from fastapi import (APIRouter, BackgroundTasks, File,
-                     UploadFile, status, HTTPException, Depends, Response)
+                     UploadFile, status, HTTPException, Depends, Response, Query)
 from fastapi.security import HTTPBearer
+from tortoise.expressions import Q
 
 from app.accounts.enums import UserStatus, UserRole
 from app.accounts.models import Account
@@ -15,6 +17,12 @@ from app.accounts.schemas import (
     LoginUserSchema,
     ChangePasswordSchema,
     AccountUpdate,
+    AccountListResponse,
+)
+from app.config.pagination import (
+    PaginationParams,
+    PaginationHelper,
+    get_pagination_params,
 )
 from app.accounts.auth import (
     hash_password,
@@ -106,6 +114,58 @@ async def get_current_user_data(current_user: Account = Depends(get_current_user
         "message": "User Retrieved",
         "data": user_out,
     }
+
+
+@router.get(
+    "/users",
+    response_model=AccountListResponse,
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(security)]
+)
+async def list_users(
+    pagination_params: PaginationParams = Depends(get_pagination_params),
+    search: Optional[str] = Query(
+        None, description="Search users by first name or last name"),
+    exclude_current: bool = Query(
+        True, description="Exclude current user from results"),
+    current_user: Account = Depends(get_current_user)
+):
+    """
+    List all users with pagination.
+
+    - Returns paginated list of users
+    - Can search by first name or last name
+    - Optionally excludes current user from results
+    - Useful for finding users to start a chat with
+    """
+    # Build queryset
+    queryset = Account.filter(
+        status=UserStatus.ACTIVE).prefetch_related("image")
+
+    # Exclude current user if requested
+    if exclude_current:
+        queryset = queryset.exclude(id=current_user.id)
+
+    # Apply search filter if provided
+    if search:
+        search_term = search.strip()
+        queryset = queryset.filter(
+            Q(first_name__icontains=search_term) | Q(
+                last_name__icontains=search_term)
+        )
+
+    # Order by name
+    queryset = queryset.order_by("first_name", "last_name")
+
+    # Paginate
+    items, meta = await PaginationHelper.paginate_queryset(queryset, pagination_params)
+
+    # Convert to AccountRead schema
+    account_reads = [
+        AccountRead.model_validate(account) for account in items
+    ]
+
+    return PaginationHelper.create_paginated_response(account_reads, meta)
 
 
 @router.patch("/update-user-image", status_code=status.HTTP_200_OK, dependencies=[Depends(security)])

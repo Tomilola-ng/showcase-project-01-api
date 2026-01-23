@@ -31,9 +31,7 @@ class AccountRead(BaseModel):
     role: str
     email: str
     status: str
-    country: str
     created_at: datetime
-    state: Optional[str] = None
     image: Optional[FileOut] = None
 
     class Config:
