@@ -1,7 +1,7 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
 
-# Install uv.
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+# Install uv via pip so builds do not depend on ghcr.io (often blocked on PaaS hosts).
+RUN pip install --no-cache-dir uv
 
 # Copy the application into the container.
 COPY . /app
